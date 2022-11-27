@@ -87,21 +87,120 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "0f1d3562ff3945b2b9683b794f5d705c"
+    });
+  </script>
+
+  <script>
+    TrackJS.track('Testing TrackJS!');
+
+    class CustomError extends Error{
+      constructor(message) {
+        super(message);
+        this.name = "InputError";
+      }
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      try{
+
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+        if (firstNum == "" || secondNum == ""){
+          throw new CustomError("The input is empty");
+        }
+      } catch(error){
+          console.error("Input error");
+      } finally {
+        console.log("Calculated");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener("click", function(e) {
+      console.log("Console Log Demo");
+    });
+    errorBtns[1].addEventListener("click", function(e){
+      console.error("Console Error Demo");
+    });
+    errorBtns[2].addEventListener("click", function(e){
+      console.count();
+    });
+    errorBtns[3].addEventListener("click", function(e){
+      console.warn("Console Warn Demo");
+    });
+    errorBtns[4].addEventListener("click", function(e){
+      let x = 0;
+      console.assert(x > 1, "Console Assert Demo");
+    });
+    errorBtns[5].addEventListener("click", function(e){
+      console.clear();
+    });
+    errorBtns[6].addEventListener("click", function(e){
+      console.dir(errorBtns[5]);
+    });
+    errorBtns[7].addEventListener("click", function(e){
+      console.dirxml(errorBtns[6]);
+    });
+    errorBtns[8].addEventListener("click", function(e){
+      console.group();
+    });
+    errorBtns[9].addEventListener("click", function(e){
+      console.groupEnd();
+    });
+    
+    let aTable = [
+      {
+        a: "apple",
+        b: "pen",
+        c: "pineapplepen"
+      },
+      {
+        d: "penpine",
+        e: "appleapple",
+        f: "applepen"
+      }
+    ];
+    errorBtns[10].addEventListener("click", function(e){
+      console.table(aTable);
+    });
+    errorBtns[11].addEventListener("click", function(e){
+      console.time();
+    });
+    errorBtns[12].addEventListener("click", function(e){
+      console.timeEnd();
+    });
+    errorBtns[13].addEventListener("click", function(e){
+      let func1 = function(e){
+        func2();
+      }
+      let func2 = function(e){
+        func3();
+      }
+      let func3 = function(e){
+        console.trace();
+      }
+      func1();
+    });
+    errorBtns[14].addEventListener("click", function(e){
+      console.log(triggererror);
+    });
+    window.addEventListener("error", function(e){
+      console.error("Oh no there is an error");
+    })
   </script>
 </body>
 
